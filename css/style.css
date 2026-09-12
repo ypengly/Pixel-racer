@@ -1,0 +1,199 @@
+/* ============================================================
+   STYLE.CSS - retro Nokia/Java handset aesthetic
+   Everything scales from a single font-size set on #game-container
+   by main.js (see resizeGame()), so all sizes below use em/% only.
+   ============================================================ */
+
+@font-face {
+  /* no external font dependency (must run fully offline) -
+     the chunky look instead comes from monospace + letter-spacing + text-shadow */
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+
+html, body {
+  margin: 0; padding: 0; width: 100%; height: 100%;
+  background: radial-gradient(circle at 50% 10%, #2a5270 0, #172a43 42%, #0c1424 100%);
+  overflow: hidden;
+  font-family: 'Courier New', Courier, monospace;
+  touch-action: none;
+}
+
+#app {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+}
+
+#phone-frame {
+  display: flex; flex-direction: column; align-items: center; gap: 0.6em;
+}
+
+#game-container {
+  position: relative;
+  background: #07121e;
+  border: 3px solid #8ee8ff;
+  outline: 3px solid #315775;
+  box-shadow: 0 0 0 7px #0a1424, 0 0 28px rgba(89, 207, 255, 0.35), 0 16px 36px rgba(0,0,0,0.55);
+  overflow: hidden;
+  image-rendering: pixelated;
+}
+
+#game-canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  display: block;
+  background: #274d2e;
+}
+
+#overlay {
+  position: absolute; inset: 0;
+  color: #cfe8cf;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.screen {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 1.4em 1em;
+  background:
+    linear-gradient(rgba(7, 40, 49, 0.84), rgba(14, 22, 58, 0.88)),
+    repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,255,255,0.025) 3px 4px);
+}
+#screen-menu { justify-content: center; }
+.hidden { display: none !important; }
+
+/* ---- typography ---- */
+.game-title {
+  font-size: 2.1em; line-height: 1.05; text-align: center; letter-spacing: 0.08em;
+  color: #f7fcff; margin: 0.4em 0 0.15em;
+  text-shadow: 2px 2px 0 #205174, 0 0 14px rgba(116, 231, 255, 0.72);
+}
+.game-subtitle {
+  font-size: 0.68em; letter-spacing: 0.25em; color: #79ecff; margin: 0 0 1.2em; text-align: center;
+}
+.title-block { margin-top: 0.4em; }
+.screen-title {
+  font-size: 1.15em; letter-spacing: 0.15em; color: #f7fcff; margin: 0.2em 0 0.9em;
+  text-shadow: 1px 1px 0 #205174;
+}
+.footer-hint {
+  position: absolute; bottom: 0.9em; font-size: 0.55em; letter-spacing: 0.1em; color: #bdefff;
+  text-align: center; width: 100%; left: 0;
+}
+
+/* ---- menu lists ---- */
+.menu-list { list-style: none; margin: 0; padding: 0; width: 100%; max-width: 14em; }
+.menu-list li {
+  font-size: 0.9em; letter-spacing: 0.08em; padding: 0.65em 0.55em; margin: 0.22em 0;
+  color: #e3f8ff; cursor: pointer; border: 1px solid rgba(141, 226, 255, 0.25); display: flex;
+  background: rgba(7, 22, 45, 0.42);
+  justify-content: space-between; align-items: center;
+}
+.menu-list li .lock { font-size: 0.85em; color: #b06a2a; }
+.menu-list li.selected {
+  color: #ffffff; background: linear-gradient(90deg, #167a91, #2d569c); border-color: #b8f5ff;
+  box-shadow: 0 0 10px rgba(116, 231, 255, 0.3);
+}
+.menu-list li.selected::before { content: '\25B8\00a0'; animation: blinkCursor 1s steps(1) infinite; }
+@keyframes blinkCursor { 50% { opacity: 0; } }
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.6; }
+  94% { opacity: 1; }
+}
+.game-title { animation: flicker 4s infinite; }
+.menu-list li.locked { color: #7792a2; }
+
+/* ---- garage ---- */
+#garage-body { display: flex; flex-direction: column; align-items: center; width: 100%; gap: 0.6em; }
+#garage-stats { width: 100%; max-width: 14em; font-size: 0.62em; letter-spacing: 0.06em; color: #9fdca0; }
+.stat-row { display: flex; align-items: center; gap: 0.5em; margin: 0.35em 0; }
+.stat-label { width: 4.6em; flex-shrink: 0; }
+.stat-bar { flex: 1; height: 0.7em; background: #16241a; border: 1px solid #35533a; position: relative; }
+.stat-fill { position: absolute; inset: 0; background: #8fe38f; width: 0%; }
+
+/* ---- high scores ---- */
+.score-frame {
+  border: 2px solid #4c7a4c; padding: 0.6em 0.9em; width: 100%; max-width: 14em; margin-bottom: 0.8em;
+}
+#highscore-table { width: 100%; border-collapse: collapse; font-size: 0.72em; letter-spacing: 0.06em; }
+#highscore-table td { padding: 0.22em 0; color: #9fdca0; }
+#highscore-table td:last-child { text-align: right; color: #eaffea; }
+#highscore-table tr.you td { color: #ffdd55; }
+
+/* ---- how to play ---- */
+.howto-body { font-size: 0.62em; letter-spacing: 0.05em; line-height: 1.9; color: #a9dca9; text-align: center; margin-bottom: 0.6em; }
+.howto-sep { color: #35533a; }
+
+/* ---- HUD ---- */
+#hud {
+  position: absolute; inset: 0; padding: 0.55em 0.7em; pointer-events: none;
+  display: flex; flex-direction: column; justify-content: space-between;
+  font-size: 1em;
+}
+#hud-top, #hud-mid { display: flex; justify-content: space-between; }
+#hud-top { font-size: 0.65em; color: #eaffea; text-shadow: 1px 1px 0 #000; }
+#hud-mid { font-size: 0.62em; color: #ffdd55; text-shadow: 1px 1px 0 #000; }
+#hud-bottom { display: flex; flex-direction: column; gap: 0.2em; }
+#hud-nitro-label { font-size: 0.5em; color: #5ec6ff; text-shadow: 1px 1px 0 #000; letter-spacing: 0.15em; }
+#hud-nitro-bar { height: 0.7em; background: rgba(0,0,0,0.5); border: 1px solid #cfe8cf; }
+#hud-nitro-fill { height: 100%; width: 50%; background: #5ec6ff; transition: width 0.1s linear; }
+
+/* ---- countdown ---- */
+#countdown {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+#countdown-text {
+  font-size: 4em; color: #ffdd55; text-shadow: 3px 3px 0 #000; letter-spacing: 0.05em;
+  animation: pop 0.3s ease-out;
+}
+@keyframes pop { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* ---- results ---- */
+.result-frame {
+  border: 2px solid #4c7a4c; padding: 0.9em 1.1em; width: 100%; max-width: 14em; text-align: center; margin-bottom: 0.8em;
+}
+#result-lines { font-size: 0.62em; letter-spacing: 0.05em; text-align: left; margin: 0.6em 0; }
+#result-lines .line { display: flex; justify-content: space-between; color: #9fdca0; padding: 0.1em 0; }
+#result-total {
+  font-size: 0.85em; color: #ffdd55; border-top: 1px solid #35533a; padding-top: 0.5em; letter-spacing: 0.08em;
+}
+#result-unlock { font-size: 0.55em; color: #5ec6ff; margin-top: 0.5em; letter-spacing: 0.06em; }
+
+/* ---- initials entry ---- */
+#initials-score { font-size: 1.1em; color: #ffdd55; margin: 0.2em 0 0.8em; }
+#initials-input { display: flex; gap: 0.6em; margin-bottom: 1em; }
+.initial-char {
+  font-size: 1.6em; width: 1.2em; text-align: center; color: #eaffea;
+  border-bottom: 2px solid #8fe38f; padding-bottom: 0.1em;
+}
+.initial-char.active { color: #ffdd55; border-color: #ffdd55; }
+
+/* ---- sound toggle ---- */
+#sound-toggle {
+  position: absolute; top: 0.5em; right: 0.5em; font-size: 0.8em; color: #8fe38f;
+  width: 1.8em; height: 1.8em; display: flex; align-items: center; justify-content: center;
+  border: 1px solid #4c7a4c; cursor: pointer; z-index: 20; background: rgba(6,12,8,0.7);
+}
+#sound-toggle.muted { color: #7a3c3c; border-color: #7a3c3c; }
+
+/* ---- touch controls ---- */
+#touch-controls {
+  display: flex; justify-content: space-between; width: 100%; max-width: 480px; padding: 0.75em 0.4em 0;
+}
+#touch-left-cluster, #touch-right-cluster { display: flex; gap: 0.5em; align-items: flex-end; }
+.touch-btn {
+  width: 3.2em; height: 3.2em; border-radius: 50%; border: 2px solid #82eaff;
+  background: linear-gradient(145deg, #235b82, #142b55); color: #f4fdff; font-size: 1.15em;
+  box-shadow: 0 3px 0 #091426, 0 0 10px rgba(116, 231, 255, 0.22);
+  display: flex; align-items: center; justify-content: center;
+}
+.touch-btn:active { background: #2f9fb4; transform: translateY(2px); box-shadow: 0 1px 0 #091426; }
+.touch-btn-accel { width: 3.6em; height: 3.6em; }
+.touch-btn-nitro { color: #5ec6ff; border-color: #5ec6ff; font-weight: bold; }
